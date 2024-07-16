@@ -17,10 +17,10 @@ class TaskMosel extends TaskEntity{
     required super.projectId,
   });
 
-  factory TaskMosel.fromJson(Map<String, dynamic> json) => TaskMosel(
-    taskDescription: json["taskDescription"],
-    taskStatus: json["taskStatus"],
-    projectId: json["project_id"],
+  factory TaskMosel.fromJson(TaskEntity json) => TaskMosel(
+    taskDescription: json.taskDescription,
+    taskStatus: json.taskStatus,
+    projectId: json.projectId,
   );
 
   Map<String, dynamic> toJson() => {

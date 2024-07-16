@@ -1,16 +1,17 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import '../../../../config/hive_config.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/constants/contantsVarApp.dart';
 import '../../../../core/service/coreService.dart';
+import '../models/user.dart';
 import 'auth_api_service.dart';
 
 class AuthApiServiceImp implements AuthApiService{
   @override
-  Future<bool> newRegister(userModel) async {
-    final _data = userModel.toJson();
+  Future<bool> newRegister(userEntity) async {
     print(CoreService.baseUrl+apiRegister);
-    print(userModel.toJson());
+    final _data = jsonEncode(UserModel.fromJson(userEntity));
     CoreService.responsee =await CoreService.dio.post(
         CoreService.baseUrl+apiRegister,
         data: _data
@@ -25,10 +26,9 @@ class AuthApiServiceImp implements AuthApiService{
   }
 
   @override
-  Future<bool> login(userModel) async {
-    final _data = userModel.toJson();
+  Future<bool> login(userEntity) async {
     print(CoreService.baseUrl+apiLogin);
-    print(userModel.toJson());
+    final _data = jsonEncode(UserModel.fromJson(userEntity));
     CoreService.responsee =await CoreService.dio.post(
         CoreService.baseUrl+apiLogin,
         data: _data

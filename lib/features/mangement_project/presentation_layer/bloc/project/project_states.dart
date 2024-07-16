@@ -14,6 +14,10 @@ class SuccessGetProjectState extends ProjectStates{
   SuccessGetProjectState({required this.getProjectMosel});
 }
 
+class SuccessGetAllProjectState extends ProjectStates{
+  List<dynamic> getAllProjectMosel;
+  SuccessGetAllProjectState({required this.getAllProjectMosel});
+}
 
 class SuccessDeletingProject extends ProjectStates{
   String message;

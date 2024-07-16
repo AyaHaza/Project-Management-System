@@ -7,8 +7,10 @@ class SuccessState<T> extends DataState{
 }
 
 class SuccessStateList<T> extends DataState{
-  List<T> getdata;
-  SuccessStateList({required this.getdata});
+  List<T> getdataNew;
+  List<T>? getdataInProgress;
+  List<T>? getdataCompleted;
+  SuccessStateList({required this.getdataNew, this.getdataInProgress, this.getdataCompleted});
 }
 
 

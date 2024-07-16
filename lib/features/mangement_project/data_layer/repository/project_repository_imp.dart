@@ -6,9 +6,9 @@ class ProjectRepositoryImp implements ProjectRepository{
   final ProjectApiServiceImp _projectApiServiceImp;
   ProjectRepositoryImp(this._projectApiServiceImp);
   @override
-  Future<bool> createProject(projectModel) async{
+  Future<bool> createProject(projectEntity) async{
     try{
-      await _projectApiServiceImp.createProjectService(projectModel);
+      await _projectApiServiceImp.createProjectService(projectEntity);
       return true;
     }catch(e){
       print(e);
@@ -36,6 +36,17 @@ class ProjectRepositoryImp implements ProjectRepository{
     }catch(e){
       print(e);
       return false;
+    }
+  }
+
+  @override
+  Future<DataState> GetAllProject() async{
+    try{
+      var dataState=await _projectApiServiceImp.GetAllProjectService();
+      return dataState;
+    }catch(e){
+      print(e);
+      return ErrorState(error: "error");
     }
   }
 

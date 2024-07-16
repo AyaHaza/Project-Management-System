@@ -24,6 +24,7 @@ const String error="Error";
 
 //CREATE&JOIN_PAGE VARIABLES
 const String create='Create';
+const String join='Join';
 
 
 //Management_PROJECT_PAGE VARIABLES
@@ -32,12 +33,18 @@ const String projectScript='Project script';
 const String createProject=create;
 const String apiCreateProject='/projects';
 const String apiGetProject='/projects/';
+const String apiGetAllProjects='/projects';
 final List<String> options = [
   'Delete',
   'Edit'
 ];
 const String sureDelete='Are you sure you want to delete this project ?';
 const String iAmSure="Yes, i sure ";
+const String backing='Backing';
+const String onprogress='on progress..';
+const String done='Done';
+const String EnterprojectID="Enter project’s\nID..";
+const String confirm='confirm';
 
 
 //Management_TASK_PAGE VARIABLES
@@ -45,6 +52,7 @@ const String taskss='Tasks';
 const String createTask=create;
 const String intialListText="There is not TASKS yet , \ntry add tasks to this project";
 const String apiAddTask='/tasks';
+const String apiEditTaskStatus='/tasks/';
 const String apiGetTask='/tasks/tasks-by-project/';
 const String taskDescription ="task Description";
 const String cancel='Cancel';

@@ -6,9 +6,9 @@ class TaskRepositoryImp implements TaskRepository{
   TaskApiServiceImp _taskApiServiceImp;
   TaskRepositoryImp( this._taskApiServiceImp);
   @override
-  Future<bool> addTask(taskModel) async{
+  Future<bool> addTask(taskEntity) async{
     try{
-     await _taskApiServiceImp.AddTask(taskModel);
+     await _taskApiServiceImp.AddTask(taskEntity);
       return true;
     }catch(e){
       print(e);
@@ -27,5 +27,16 @@ class TaskRepositoryImp implements TaskRepository{
       return ErrorState(error: "error");
     }
 
+  }
+
+  @override
+  Future<bool> EditTasStatus(taskEntity)async {
+    try{
+      await _taskApiServiceImp.EditTasStatus(taskEntity);
+      return true;
+    }catch(e){
+      print(e);
+      return false;
+    }
   }
 }

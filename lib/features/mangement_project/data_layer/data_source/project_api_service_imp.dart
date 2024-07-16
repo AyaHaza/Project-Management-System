@@ -1,18 +1,19 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:project_management/features/mangement_project/data_layer/models/get_project.dart';
 import '../../../../config/hive_config.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/constants/contantsVarApp.dart';
 import '../../../../core/resource/data_state.dart';
 import '../../../../core/service/coreService.dart';
+import '../models/get_project.dart';
+import '../models/project.dart';
 import 'project_api_service.dart';
 
 class ProjectApiServiceImp implements ProjectApiService {
   @override
-  Future<bool> createProjectService(projectModel) async{
-    final _data = projectModel.toJson();
+  Future<bool> createProjectService(projectEntity) async{
+    final _data = jsonEncode(ProjectModel.fromJson(projectEntity));
     print(CoreService.baseUrl+apiCreateProject);
-    print(projectModel.toJson());
     CoreService.responsee=await CoreService.dio.post(
         CoreService.baseUrl+apiCreateProject,
         data: _data,
@@ -68,5 +69,28 @@ class ProjectApiServiceImp implements ProjectApiService {
     print( CoreService.responsee.statusCode);
     print(value);
     return true;
+  }
+
+
+
+  @override
+  Future<DataState> GetAllProjectService() async{
+    print(CoreService.baseUrl+apiGetAllProjects);
+    CoreService.responsee=await CoreService.dio.get(
+      CoreService.baseUrl+apiGetAllProjects,
+      options: Options(
+        headers: {
+          "Authorization": "Bearer ${userHive!.get("token")}"
+        },
+      ),
+    );
+    print( CoreService.responsee.statusCode);
+    if(CoreService.responsee.statusCode==200){
+      var getProgect=List.generate(CoreService.responsee.data.length, (index) =>GetProjectMosel.fromJson(CoreService.responsee.data[index]));
+      print(getProgect);
+      return SuccessStateList(getdataNew: getProgect);
+    }else{
+      return ErrorState(error: "error");
+    }
   }
 }

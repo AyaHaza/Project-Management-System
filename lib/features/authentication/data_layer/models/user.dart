@@ -10,12 +10,12 @@ class UserModel extends UserEntity{
   UserModel({
      super.firstName,  super.lastName, required super.email, required super.password,  super.role,
   });
-   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    firstName: json["firstName"],
-    lastName: json["lastName"],
-    email: json["email"],
-    password: json["password"],
-    role: json["role"],
+   factory UserModel.fromJson(UserEntity json) => UserModel(
+    firstName: json.firstName,
+    lastName: json.lastName,
+    email: json.email,
+    password: json.password,
+    role: json.role,
    );
 
    Map<String, dynamic> toJson() => {

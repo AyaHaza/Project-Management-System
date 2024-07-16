@@ -6,9 +6,9 @@ class UserRepositoryImp implements UserRepository{
   UserRepositoryImp(this._authApiServiceImp);
 
   @override
-  Future<bool> register(userModel) async{
+  Future<bool> register(userEntity) async{
     try{
-      await _authApiServiceImp.newRegister(userModel);
+      await _authApiServiceImp.newRegister(userEntity);
       return true;
     }catch(e){
       print(e);
@@ -17,9 +17,9 @@ class UserRepositoryImp implements UserRepository{
   }
 
   @override
-  Future<bool> login(userModel) async{
+  Future<bool> login(userEntity) async{
     try{
-      await _authApiServiceImp.login(userModel);
+      await _authApiServiceImp.login(userEntity);
       return true;
     }catch(e){
       print(e);

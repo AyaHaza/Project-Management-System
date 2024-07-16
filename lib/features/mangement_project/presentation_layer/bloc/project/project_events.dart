@@ -1,12 +1,14 @@
-import '../../../data_layer/models/project.dart';
+import '../../../domain_layer/entities/project.dart';
 
 abstract class ProjectEvents{}
 
 class NewProject extends ProjectEvents{
-  ProjectModel projectModel;
-  NewProject({required this.projectModel});
+  ProjectEntity projectEntity;
+  NewProject({required this.projectEntity});
 }
 
 class GetProject extends ProjectEvents{}
 
 class DeleteProject extends ProjectEvents{}
+
+class GetAllProjects extends ProjectEvents{}

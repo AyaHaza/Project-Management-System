@@ -1,11 +1,11 @@
 import '../../../../core/usecases/usecases.dart';
 import '../repository/task_repository.dart';
 
-class AddTaskUseCase extends UseCse{
+class AddTaskUseCase extends UseCse<bool,List<dynamic>>{
   TaskRepository _taskRepository;
   AddTaskUseCase(this._taskRepository);
   @override
-  Future call(params) {
+  Future<bool> call(params) {
     return _taskRepository.addTask(params);
   }
 }

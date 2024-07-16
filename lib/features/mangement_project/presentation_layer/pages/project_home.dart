@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_management/features/mangement_task/data_layer/models/task.dart';
 import '../../../../core/constants/constantsColor.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/constants/contantsVarApp.dart';
@@ -19,6 +20,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 
 class ProjectHome extends StatelessWidget {
   final ValueNotifier<dynamic> deleteProject=ValueNotifier(SizedBox());
+  Color caughtColor = Colors.red;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -37,7 +40,7 @@ class ProjectHome extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
-              onPressed: (){},
+              onPressed: (){Navigator.pushReplacementNamed(context, '/AllProjects');},
               backgroundColor: lightGreen,
               child: Icon(Icons.dataset_linked_outlined,color: darkBlue,),
             ),
@@ -172,21 +175,47 @@ class ProjectHome extends StatelessWidget {
               ],
               iconTheme: IconThemeData(color:darkBlue),
             ),
-            drawer: Drawer(backgroundColor: lightGreen,child: IconButton(onPressed: (){context.read<AuthBloc>().add(Logout());},icon:
-              BlocBuilder<AuthBloc,AuthStates>(
-                builder: (context, state) {
-                  if(state is loadingAuthState){
-                    return CupertinoActivityIndicator(color: darkBlue,);
-                  }else if(state is InitialAuthState){
-                    return Icon(Icons.logout_outlined);
-                  }else if(state is SuccessAuthState){
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    });
-                  }return SizedBox();
-                },
-              )
-              ,)),
+            drawer: Drawer(
+                backgroundColor: darkBlue,
+                child: Column(
+                  children: [
+                    SizedBox(height: 40,),
+                    Container(
+                      width: 100,
+                      height: 100,
+                      padding: EdgeInsets.only(top: 20),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: lightGreen,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Image.asset("images/bear.png",scale: 4.6,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Text ("Aya Hazaa",style: TextStyle(fontSize: 15,color: white),),
+                    ),
+                    SizedBox(height: 30,),
+                    Divider(height: 10,color: lightGreen,),
+                    ListTile(
+                      leading: Icon(Icons.link,color: lightGreen,),
+                      title: Text("Create & Join",style: TextStyle(color: lightGreen,fontSize: 12),),
+                      onTap: (){ Navigator.pushNamed(context, '/Create&Join');},
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.language_outlined,color: lightGreen,),
+                      title: Text("Change Language",style: TextStyle(color: lightGreen,fontSize: 12),),
+                      onTap: (){},
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.logout_outlined,color: lightGreen,),
+                      title: Text("logout",style: TextStyle(color: lightGreen,fontSize: 12),),
+                      onTap: (){context.read<AuthBloc>().add(Logout());Navigator.pushReplacementNamed(context, '/login');},
+                    ),
+                    Divider(height: 10,color: lightGreen,),
+                  ],
+                )
+            ),
             body: Container(
               width: double.infinity,
               height: double.infinity,
@@ -215,42 +244,71 @@ class ProjectHome extends StatelessWidget {
                     ),
                   ),
                     SizedBox(height: 40,),
-                  Container(
-                    height: 450,
-                     width: 400,
-                     child: BlocBuilder<MangementTaskBlock,TasksStates>(
-                        builder: (context, state) {
-                          if(state is SuccessGetTaskState){
-                            return ListView.builder(
-                                itemCount: state.getTaskMosel.length,
-                                itemBuilder:(context, index) {
-                                 return Container(
-                                   margin: EdgeInsets.only(bottom: 10,right: 270,left: 26),
-                                   height: 96,
-                                   decoration: BoxDecoration(
-                                       color: lightPurple,
-                                       borderRadius: BorderRadius.circular(10)
-                                   ),
-                                   child: Container(
-                                     margin: EdgeInsets.only(left: 6,right: 6,top: 26,bottom: 6),
-                                     padding: EdgeInsets.symmetric(horizontal: 10),
-                                     decoration: BoxDecoration(
-                                         color: white,
-                                         borderRadius: BorderRadius.circular(10)
-                                     ),
-                                     child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMosel[index].taskDescription)),
-                                   ),
-                                 );
-                                },
-                            );
-                          }else if(state is ErrorProjectState){
-                            return const Text(error);
+                  Expanded(
+                    child: Container(
+                      width: 350,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          DraggableWidget(),
+                          DraggableTwoList(),
+                          Container(
+                            width: 116,
+                            child: BlocBuilder<MangementTaskBlock,TasksStates>(
+                              builder: (context, state) {
+                                if(state is SuccessGetTaskState){
+                                  return DragTarget(
+                                    builder: (context,accepted,rejected){
+                                      return  ListView.builder(
+                                        itemCount: state.getTaskMoselCompleted.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin: EdgeInsets.only(bottom: 10,right: 10,left: 10),
+                                            height: 96,
+                                            decoration: BoxDecoration(
+                                                color: green,
+                                                borderRadius: BorderRadius.circular(10)
+                                            ),
+                                            child:  Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                            Padding(
+                                            padding: const EdgeInsets.only(left: 8.0,top: 8.0,bottom: 4),
+                                            child: Text(done,style: TextStyle(fontSize: 12,color: greenDark),),
+                                          ),
+                                          Container(
+                                          height: 60,
+                                          margin: EdgeInsets.only(left: 6,right: 6),
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              decoration: BoxDecoration(
+                                                  color: white,
+                                                  borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMoselCompleted[index].taskDescription)),
+                                            ),
+                                        ])  );
+                                        },
 
-                          }else{
-                            return CupertinoActivityIndicator(color: lightGreen,);
-                          }
-                        },
-                      )
+                                      );
+                                    },
+                                    onAccept: ( data){
+                                      state.getTaskMoselCompleted.add(data);
+                                      print(state.getTaskMoselCompleted);
+                                    },
+                                  );
+                                }else if(state is ErrorProjectState){
+                                  return const Text(error);
+                                }else{
+                                  return CupertinoActivityIndicator(color: darkBlue,);
+                                }
+                              },
+
+                            )
+                          )
+                          ],
+                      ),
+                    ),
                   )
                 ],
               )
@@ -259,5 +317,206 @@ class ProjectHome extends StatelessWidget {
         }
       ),
     );
+  }
+}
+
+
+
+class DraggableWidget extends StatefulWidget {
+
+
+  @override
+  State<DraggableWidget> createState() => _DraggableWidgetState();
+}
+
+class _DraggableWidgetState extends State<DraggableWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        // color: Colors.cyan,
+        width: 116,
+        // margin: EdgeInsets.only(left: 20),
+        child: BlocBuilder<MangementTaskBlock,TasksStates>(
+          builder: (context, state) {
+            if(state is SuccessGetTaskState){
+              return ListView.builder(
+                itemBuilder:(context, index) {
+                  return Draggable(
+                    data: state.getTaskMoselNew[index],
+                    onDragCompleted: (){
+                      idTask=state.getTaskMoselNew[index].taskId;
+                      context.read<MangementTaskBlock>().add(EditTaskStatus(taskModel: TaskMosel(taskDescription: state.getTaskMoselNew[index].taskDescription, taskStatus: "IN_PROGRESS", projectId: idProject!)));
+                      print(state.getTaskMoselNew[index].taskDescription);
+                      state.getTaskMoselNew.removeAt(index);
+                      setState(() {
+                      });
+                      print("object");
+                      // print(state.getTaskMosel[index].taskDescription);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 10,right: 2,left: 2),
+                      height: 96,
+                      decoration: BoxDecoration(
+                          color: lightPurple,
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0,top: 8.0,bottom: 4),
+                            child: Text(backing,style: TextStyle(fontSize: 12,color: darkPurple),),
+                          ),
+                          Container(
+                            height: 60,
+                            margin: EdgeInsets.only(left: 6,right: 6),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMoselNew[index].taskDescription)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onDraggableCanceled: (velocity, offset) {},
+                    feedback: Container(
+                      width: 150,
+                      height: 150,
+                      color: lightPurple.withOpacity(0.5),
+                      child:  Center(
+                        child:  Container(
+                          margin: EdgeInsets.only(left: 6,right: 6,top: 26,bottom: 6),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMoselNew[index].taskDescription , style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
+                            fontSize: 18.0,
+                          ),)),
+                        ),
+                      ),
+                    ),
+
+                  );
+                },
+                itemCount: state.getTaskMoselNew.length,
+              );
+            }else if(state is ErrorProjectState){
+              return const Text(error);
+            }else{
+              return CupertinoActivityIndicator(color: darkBlue,);
+            }
+          },
+        )
+    );
+  }
+}
+
+
+class DraggableTwoList extends StatefulWidget {
+  const DraggableTwoList({Key? key}) : super(key: key);
+
+  @override
+  State<DraggableTwoList> createState() => _DraggableTwoListState();
+}
+
+class _DraggableTwoListState extends State<DraggableTwoList> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.cyan,
+        width: 116,
+        // margin: EdgeInsets.only(left: 20),
+        child: BlocBuilder<MangementTaskBlock,TasksStates>(
+          builder: (context, state) {
+            if(state is SuccessGetTaskState){
+              return DragTarget(
+                builder: (context,accepted,rejected){
+                  return ListView.builder(
+                itemBuilder:(context, index) {
+                  return  Draggable(
+                          child: Container(
+                          margin: EdgeInsets.only(bottom: 10,right: 10,left: 10),
+                          height: 96,
+                          decoration: BoxDecoration(
+                              color: red,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child:  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                          Padding(
+                          padding: const EdgeInsets.only(left: 8.0,top: 8.0,bottom: 4),
+                            child: Text(onprogress,style: TextStyle(fontSize: 12,color: darkRed),),
+                          ),
+                    Container(
+                      height: 60,
+                      margin: EdgeInsets.only(left: 6,right: 6),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMoselInProgress[index].taskDescription)),
+                          ),
+                   ]) ),
+                          data: state.getTaskMoselInProgress[index],
+                          onDragCompleted: (){
+                            idTask=state.getTaskMoselInProgress[index].taskId;
+                            context.read<MangementTaskBlock>().add(EditTaskStatus(taskModel: TaskMosel(taskDescription: state.getTaskMoselInProgress[index].taskDescription, taskStatus: "COMPLETED", projectId: idProject!)));
+                            print(state.getTaskMoselInProgress[index].taskDescription);
+                            state.getTaskMoselInProgress.removeAt(index);
+                            setState(() {
+                            });
+                            print("object");
+                            // print(state.getTaskMosel[index].taskDescription);
+                          },
+                          onDraggableCanceled: (velocity, offset) {},
+                          feedback: Container(
+                            width: 150,
+                            height: 150,
+                            color: red.withOpacity(0.5),
+                            child:  Center(
+                              child:  Container(
+                                margin: EdgeInsets.only(left: 6,right: 6,top: 26,bottom: 6),
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Align(alignment:Alignment.centerLeft,child: Text(state.getTaskMoselInProgress[index].taskDescription , style: TextStyle(
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 18.0,
+                                ),)),
+                              ),
+                            ),
+                          ),
+
+
+                      );},
+                    itemCount: state.getTaskMoselInProgress.length,
+                  );
+                },
+                onAccept: ( data){
+                  state.getTaskMoselInProgress.add(data);
+                  print("taskNew");
+                  print(state.getTaskMoselInProgress);
+                },
+              );
+            }else if(state is ErrorProjectState){
+              return const Text(error);
+            }else{
+              return CupertinoActivityIndicator(color: darkBlue,);
+            }
+          },
+        )
+    );
+
   }
 }

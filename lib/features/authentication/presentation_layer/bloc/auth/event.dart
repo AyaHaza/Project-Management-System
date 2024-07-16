@@ -1,14 +1,14 @@
-import '../../../data_layer/models/user.dart';
+import '../../../domain_layer/entities/user.dart';
 abstract class AuthEvents{}
 
 class NewRegister extends AuthEvents{
-  UserModel userModel;
-  NewRegister({required this.userModel});
+  UserEntity userEntity;
+  NewRegister({required this.userEntity});
 }
 
 class NewLogin extends AuthEvents{
-  UserModel userModel;
-  NewLogin({required this.userModel});
+  UserEntity userEntity;
+  NewLogin({required this.userEntity});
 }
 
 class Logout extends AuthEvents{}

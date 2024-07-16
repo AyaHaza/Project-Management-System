@@ -5,7 +5,7 @@ import '../../../../core/constants/constantsColor.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/widgetsApp/widget_button.dart';
 import '../../../../injection_container.dart';
-import '../../data_layer/models/user.dart';
+import '../../domain_layer/entities/user.dart';
 import '../bloc/auth/bloc.dart';
 import '../bloc/auth/event.dart';
 import '../bloc/auth/state.dart';
@@ -60,8 +60,8 @@ class Register extends StatelessWidget {
                         },
                       ),lightYellow, darkBlue, () async{
                      formKey.currentState!.save();
-                     UserModel user=UserModel(firstName: _firstName.text, lastName: _lastName.text, email: _email.text, password: _pass.text, role: _role.text);
-                     context.read<AuthBloc>().add(NewRegister(userModel: user));
+                     UserEntity user=UserEntity(firstName: _firstName.text, lastName: _lastName.text, email: _email.text, password: _pass.text, role: _role.text);
+                     context.read<AuthBloc>().add(NewRegister(userEntity: user));
                      }
                    ),
                     Row(

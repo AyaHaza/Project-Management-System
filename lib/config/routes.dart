@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../features/authentication/presentation_layer/pages/login.dart';
 import '../features/authentication/presentation_layer/pages/register.dart';
-import '../features/creat_join/presentation_layer/pages/create&join.dart';
+import '../features/mangement_project/presentation_layer/pages/all_projects.dart';
+import '../features/mangement_project/presentation_layer/pages/create&join.dart';
 import '../features/mangement_project/presentation_layer/pages/create_project.dart';
 import '../features/mangement_project/presentation_layer/pages/project_home.dart';
 import '../features/mangement_task/presentation_layer/pages/add_task.dart';
@@ -30,6 +31,9 @@ class AppRoutes {
 
       case '/ProjectHome':
         return _materialRoute(ProjectHome());
+
+      case '/AllProjects':
+        return _materialRoute(AllProjects());
 
       default:
         return _materialRoute( Register());

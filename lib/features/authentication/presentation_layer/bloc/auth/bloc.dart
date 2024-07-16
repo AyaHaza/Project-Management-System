@@ -12,8 +12,8 @@ class AuthBloc extends Bloc<AuthEvents,AuthStates>{
    AuthBloc(this._registerUseCase,this._loginUseCase,this._logoutUseCase):super(InitialAuthState()){
     on<NewRegister>((event, emit) async{
       emit(loadingAuthState());
-      print(event.userModel.role);
-      final result=await _registerUseCase.call(event.userModel);
+      print(event.userEntity.role);
+      final result=await _registerUseCase.call(event.userEntity);
       if(result==true){
         emit(SuccessAuthState());
       }else{
@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvents,AuthStates>{
 
     on<NewLogin>((event, emit) async{
       emit(loadingAuthState());
-      final result=await _loginUseCase.call(event.userModel);
+      final result=await _loginUseCase.call(event.userEntity);
       if(result==true){
         emit(SuccessAuthState());
       }else{

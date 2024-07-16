@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_management/features/mangement_project/domain_layer/entities/project.dart';
 import '../../../../core/constants/constantsColor.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/widgetsApp/TextFiledCustom.dart';
@@ -58,8 +59,8 @@ final GlobalKey<FormState> formKey = GlobalKey();
                         )
                         ,lightYellow,darkBlue,()async{
                           formKey.currentState!.save();
-                          ProjectModel createProject=ProjectModel(projectName:_projectNameController.text ,projectDescription:_projectScriptController.text ,projectStatus: "");
-                          context.read<ProjectBloc>().add(NewProject(projectModel: createProject));
+                          ProjectEntity createProject=ProjectEntity(projectName:_projectNameController.text ,projectDescription:_projectScriptController.text ,projectStatus: "");
+                          context.read<ProjectBloc>().add(NewProject(projectEntity: createProject));
                         })
                   ],
                 ),

@@ -1,8 +1,8 @@
 import '../../../../core/usecases/usecases.dart';
-import '../../data_layer/models/user.dart';
+import '../entities/user.dart';
 import '../repository/user_repository.dart';
 
-class RegisterUseCase implements UseCse<bool,UserModel>{
+class RegisterUseCase implements UseCse<bool,UserEntity>{
   final UserRepository _userRepository;
   RegisterUseCase(this._userRepository);
 

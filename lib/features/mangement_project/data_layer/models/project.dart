@@ -13,10 +13,10 @@ class ProjectModel extends ProjectEntity{
     required super.projectStatus,
   });
 
-  factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
-    projectName: json["projectName"],
-    projectDescription: json["projectDescription"],
-    projectStatus: json["projectStatus"],
+  factory ProjectModel.fromJson(ProjectEntity json) => ProjectModel(
+    projectName: json.projectName,
+    projectDescription: json.projectDescription,
+    projectStatus: json.projectStatus,
   );
 
   Map<String, dynamic> toJson() => {

@@ -2,13 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_management/features/mangement_task/data_layer/models/task.dart';
+import '../../domain_layer/entities/task.dart';
 import '../../../../core/constants/constantsColor.dart';
 import '../../../../core/constants/constantsStringApp.dart';
 import '../../../../core/constants/contantsVarApp.dart';
 import '../../../../core/widgetsApp/TextFiledCustom.dart';
 import '../../../../core/widgetsApp/widget_button.dart';
 import '../../../../injection_container.dart';
-import '../../data_layer/models/task.dart';
+
 import '../bloc/list_tasks_bloc/bloc.dart';
 import '../bloc/list_tasks_bloc/event.dart';
 import '../bloc/list_tasks_bloc/state.dart';
@@ -175,6 +177,7 @@ class AddTask extends StatelessWidget {
                                                     }, child: Text(cancel,style:TextStyle(color: darkBlue),),),
                                                     TextButton(onPressed: (){
                                                       context.read<ListTasksBloc>().add(AddTaskToListTasks(nameTask: _nameTaskController.text));
+                                                      _nameTaskController.clear();
                                                       Navigator.of(m).pop();
                                                     }, child: Text(add,style:TextStyle(color: darkBlue),)),
 
@@ -211,7 +214,7 @@ class AddTask extends StatelessWidget {
                                       return const Text(createProject,style: TextStyle(fontSize: 30,color: darkBlue),);
                                     }else if(state is loadingTasksStates){
                                       return const CupertinoActivityIndicator(color: darkBlue,);
-                                    }else if(state is ErrorCreateTasksStates){
+                                    }else if(state is ErrorTasksStates){
                                       return const Text("Error",style: TextStyle(fontSize: 30,color: darkBlue),);
                                     }else if(state is SuccessCreateTasksStates){
                                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -226,7 +229,7 @@ class AddTask extends StatelessWidget {
                                     return TaskMosel(taskDescription: tasks[index], taskStatus: 'NEW',projectId:idProject!);
                                   });
                                   print(taskList);
-                                  context.read<MangementTaskBlock>().add(NewTask(taskModel: taskList));
+                                  context.read<MangementTaskBlock>().add(NewTask(taskEntity: taskList));
                                 }),
                           )
                         ],

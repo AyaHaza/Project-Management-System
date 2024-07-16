@@ -5,7 +5,7 @@ import 'config/bloc_observe.dart';
 import 'config/hive_config.dart';
 import 'config/routes.dart';
 import 'features/authentication/presentation_layer/pages/register.dart';
-import 'features/creat_join/presentation_layer/pages/create&join.dart';
+import 'features/mangement_project/presentation_layer/pages/create&join.dart';
 import 'injection_container.dart';
 
 void main() async{
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // userHive!.delete("token");
+    userHive!.delete("token");
     print(userHive!.get("token"));
     return   MaterialApp(
         debugShowCheckedModeBanner:false,
